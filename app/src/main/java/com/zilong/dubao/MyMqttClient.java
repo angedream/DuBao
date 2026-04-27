@@ -97,11 +97,14 @@ public class MyMqttClient {
     }
 
     public void publish(String topic,String msg){
+        publish(topic,msg,0,false);
+    }
+    public void publish(String topic,String msg,int qos,boolean retained){
         mWorkHandler.post(()->{
             try {
                 MqttMessage message=new MqttMessage(msg.getBytes(StandardCharsets.UTF_8));
-                message.setQos(0);
-                message.setRetained(false);
+                message.setQos(qos);
+                message.setRetained(retained);
                 client.publish(topic,message);
             } catch (MqttException e) {
                 e.printStackTrace();
@@ -109,7 +112,6 @@ public class MyMqttClient {
 
         });
     }
-
     public void colse(){
         mWorkHandler.post(()->{
             try {

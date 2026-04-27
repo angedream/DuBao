@@ -7,24 +7,25 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+    MyMqttClient myMqttClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button startbtn=findViewById(R.id.startbtn);
+        myMqttClient=new MyMqttClient();
+        myMqttClient.connect();
+        Button startbtn=findViewById(R.id.sendbtn);
         startbtn.setOnClickListener(v->{
-            Intent intent = new Intent(this, MyService.class);
-            startForegroundService(intent);
+            String topic=((EditText)findViewById(R.id.topic)).getText().toString();
+            String content=((EditText)findViewById(R.id.content)).getText().toString();
+            myMqttClient.publish(topic,content);
         });
-        Button stopbtn=findViewById(R.id.stopbtn);
-        stopbtn.setOnClickListener(v->{
-            Intent intent = new Intent(this, MyService.class);
-            stopService(intent);
-        });
+
     }
 
 }
