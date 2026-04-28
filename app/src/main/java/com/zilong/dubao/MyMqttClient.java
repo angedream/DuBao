@@ -3,6 +3,7 @@ package com.zilong.dubao;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
@@ -35,7 +36,12 @@ public class MyMqttClient {
         @Override
         public void connectComplete(boolean reconnect, String serverURI) {
             Log.d("mqtt","connectComplete");
-            publish("/dubao","嘟宝上线了");
+            try {
+                client.subscribe("/duma/#");
+            } catch (MqttException e) {
+                e.printStackTrace();
+            }
+
 
         }
 
@@ -48,7 +54,8 @@ public class MyMqttClient {
         @Override
         public void messageArrived(String topic, MqttMessage message) throws Exception {
             String s=new String(message.getPayload());
-            Log.d("mqtt","有消息来了");
+            Log.d("mqtt","主题是:"+topic);
+            Log.d("mqtt","内容是::"+s);
         }
 
         @Override
@@ -61,14 +68,15 @@ public class MyMqttClient {
         try {
             String url= "tcp://"+MyConfig.mqttip+":"+MyConfig.mqttport;
             String dubaoID="0001";
+            Log.d("mqtt",url);
             client=new MqttClient(url, "dubao_server"+dubaoID, new MemoryPersistence());
             connOpts=new MqttConnectOptions();
             connOpts.setCleanSession(true);// 重连接是否清理会话
             connOpts.setConnectionTimeout(10);
             connOpts.setKeepAliveInterval(60);//心跳间隔（秒）
             connOpts.setAutomaticReconnect(true);
-//            String s="我异常离线，我的id是:"+dubaoID;
-//            connOpts.setWill("/axb/will",s.getBytes(StandardCharsets.UTF_8),0,false);
+            String s="嘟宝异常掉线了";
+            connOpts.setWill("/dubao/will",s.getBytes(StandardCharsets.UTF_8),0,false);
             client.setCallback(callbackExtendedallback);
             _connectionMQTTServer();
 
