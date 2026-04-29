@@ -4,6 +4,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import java.util.UUID;
 
@@ -25,8 +26,5 @@ public class uuid {
             return uuid;
         }
         return uuid;
-
-
-
     }
 }
