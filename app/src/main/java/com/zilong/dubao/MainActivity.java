@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initBtn();
-        startService();
+//        startService();
         ImageView qrCodeImageView = findViewById(R.id.qrCode);
         uuid u=new uuid();
         String dubaoId=u.getuuid(this);
@@ -53,12 +54,31 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, MessageActivity.class);
                 intent.putExtra("name","嘟妈101");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                notificationMsg.sendNotification("来自嘟妈的消息","快起床出去玩了",intent);
+//                notificationMsg.sendNotification("来自嘟妈的消息","快起床出去玩了",intent);
+                parseJson();
             }
         });
     }
 
 
+    class Msg{
+        String code;
+        String dumaName;
+        String dumaId;
+        String dubaoId;
+    }
+    private void parseJson(){
+        String json="{\"code\":\"bind\",\"dumaName\":\"嘟妈\",\"dumaId\":\"f1122aeb-f2b0-400d-9919-eddd2eaebaa2\",\"dubaoId\":\"cfb20ccc-8c53-4434-85bb-a171c3ca7c0c\"}";
+        Gson gson = new Gson();
+        Msg msg = gson.fromJson(json, Msg.class);
+        ((TextView)findViewById(R.id.code)).setText(msg.code);
+        ((TextView)findViewById(R.id.dumaName)).setText(msg.dumaName);
+        ((TextView)findViewById(R.id.dumaId)).setText(msg.dumaId);
+        ((TextView)findViewById(R.id.dubaoId)).setText(msg.dubaoId);
+
+
+
+    }
 
 
 
