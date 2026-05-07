@@ -25,6 +25,7 @@ public class MyMqttClient {
         handlerThread.start();
         mWorkHandler = new Handler(handlerThread.getLooper());
         this.uuid=uuid;
+        Log.d("mqtt",uuid);
     }
 
     public void connect() {

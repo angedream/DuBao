@@ -16,14 +16,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import com.google.gson.Gson;
+
 public class MainActivity extends AppCompatActivity {
+    NotificationMsg notificationMsg=new NotificationMsg(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initBtn();
-        createNotificationChannel();
-//        startService();
+        startService();
         ImageView qrCodeImageView = findViewById(R.id.qrCode);
         uuid u=new uuid();
         String dubaoId=u.getuuid(this);
@@ -47,40 +50,18 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendNotification();
+                Intent intent = new Intent(MainActivity.this, MessageActivity.class);
+                intent.putExtra("name","嘟妈101");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                notificationMsg.sendNotification("来自嘟妈的消息","快起床出去玩了",intent);
             }
         });
     }
-    private void createNotificationChannel() {
-        NotificationManager manager =(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationChannel channel = new NotificationChannel(
-                "DUBAO",
-                "嘟宝安心守护孩子安全",
-                NotificationManager.IMPORTANCE_DEFAULT
-        );
-        manager.createNotificationChannel(channel);
-    }
 
-    int id=10;
-    private void sendNotification() {
 
-        // 创建点击通知的 Intent
-        Intent intent = new Intent(this, MessageActivity.class);
-        intent.putExtra("name","嘟妈id号"+id);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, id, intent,
-                PendingIntent.FLAG_IMMUTABLE);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "DUBAO")
-                .setSmallIcon(R.drawable.logo)
-                .setContentIntent(pendingIntent)
-                .setContentTitle("新消息提醒")
-                .setContentText("您收到一条新消息"+id);
-        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        manager.notify(id, builder.build());
-        id++;
-    }
+
 
 
 }
