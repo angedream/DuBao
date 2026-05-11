@@ -23,7 +23,6 @@ public class MyMqttClient {
     private MqttClient client;
     private MqttConnectOptions connOpts;
     private String uuid;
-    private  Context context;
     private class Msg{
         String code;
         String dumaName;
@@ -38,11 +37,12 @@ public class MyMqttClient {
         if (msg.dubaoId.equals(uuid)){
             Log.d("mqtt",msg.dumaId);
             Log.d("mqtt",msg.dumaName);
-            Intent intent = new Intent(context, MessageActivity.class);
+            Intent intent = new Intent(app.getContext(), MessageActivity.class);
             intent.putExtra("dumaName",msg.dumaName);
             intent.putExtra("dumaId",msg.dumaId);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            MyService.notificationMsg.sendNotification(msg.dumaName,msg.dumaId,intent);
+            NotificationMsg notificationMsg=new NotificationMsg();
+            notificationMsg.sendNotification(msg.dumaName,msg.dumaId,intent);
 
         }
 
@@ -50,12 +50,11 @@ public class MyMqttClient {
 
 
 
-    MyMqttClient(String uuid, Context context){
+    MyMqttClient(String uuid){
         HandlerThread handlerThread = new HandlerThread("worker");
         handlerThread.start();
         mWorkHandler = new Handler(handlerThread.getLooper());
         this.uuid=uuid;
-        this.context=context;
         Log.d("mqtt",uuid);
     }
 

@@ -11,7 +11,6 @@ import androidx.core.app.NotificationCompat;
 
 public class MyService extends Service {
     MyMqttClient myMqttClient;
-    static NotificationMsg notificationMsg;
     public MyService() {
     }
 
@@ -22,8 +21,7 @@ public class MyService extends Service {
         createNotificationChannel();
         uuid u=new uuid();
         String uuid= u.getuuid();
-        notificationMsg=new NotificationMsg(this);
-        myMqttClient=new MyMqttClient(uuid,this);
+        myMqttClient=new MyMqttClient(uuid);
         myMqttClient.connect();
 
     }

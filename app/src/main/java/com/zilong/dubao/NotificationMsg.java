@@ -8,16 +8,10 @@ import androidx.core.app.NotificationCompat;
 public class NotificationMsg {
     private String channelID="DUBAO";
     private String channelName="嘟宝安心守护";
-    private Context context;
     private NotificationManager manager=null;
     static int id=0;
-
-    NotificationMsg(Context context){
-        this.context=context;
-    }
-
     private void createNotificationChannel() {
-        manager =(NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        manager =(NotificationManager) app.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationChannel channel = new NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_HIGH);
         manager.createNotificationChannel(channel);
     }
@@ -25,7 +19,7 @@ public class NotificationMsg {
         if (manager==null){
             createNotificationChannel();
         }
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelID)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(app.getContext(), channelID)
                 .setSmallIcon(R.drawable.logo)
                 .setContentTitle(title)
                 .setContentText(content);
@@ -36,9 +30,9 @@ public class NotificationMsg {
         if (manager==null){
             createNotificationChannel();
         }
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, id, intent, PendingIntent.FLAG_IMMUTABLE);
+        PendingIntent pendingIntent = PendingIntent.getActivity(app.getContext(), id, intent, PendingIntent.FLAG_IMMUTABLE);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelID)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(app.getContext(), channelID)
                 .setSmallIcon(R.drawable.logo)
                 .setContentIntent(pendingIntent)
                 .setContentTitle(title)

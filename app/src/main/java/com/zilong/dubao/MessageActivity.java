@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class MessageActivity extends AppCompatActivity {
@@ -16,5 +18,21 @@ public class MessageActivity extends AppCompatActivity {
         String dumaId=getIntent().getStringExtra("dumaId");
         ((TextView)findViewById(R.id.name)).setText(dumaName);
         ((TextView)findViewById(R.id.dumaId)).setText(dumaId);
+    }
+    private void initbtn(){
+        Button agree=findViewById(R.id.agree);
+        Button refuse=findViewById(R.id.refuse);
+        agree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        refuse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 }
