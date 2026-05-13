@@ -1,5 +1,7 @@
 package com.zilong.dubao;
 
+import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
@@ -20,6 +22,30 @@ public class MyDB extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+    }
+
+    public boolean execSQL(String sql){
+        try {
+            SQLiteDatabase db =getWritableDatabase();
+            db.execSQL(sql);
+        }catch (SQLException e){
+            e.printStackTrace();
+
+        }
+        return  false;
+
+    }
+    public Cursor rawQuery(String sql){
+        try {
+            SQLiteDatabase db =getWritableDatabase();
+            Cursor cursor = db.rawQuery(sql, null);
+            return cursor;
+        }catch (SQLException e){
+            e.printStackTrace();
+
+        }
+        return null;
 
     }
 }

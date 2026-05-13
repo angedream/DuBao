@@ -6,7 +6,7 @@
     android:orientation="vertical">
     <Button
         android:id="@+id/createDB"
-        android:text="创建"
+        android:text="创建数据库"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <Button
@@ -15,8 +15,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <Button
+        android:id="@+id/updateDB"
+        android:text="更新数据"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
         android:id="@+id/queryDB"
         android:text="查询数据"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/delDB"
+        android:text="删除数据"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

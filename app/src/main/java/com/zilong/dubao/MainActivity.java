@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private MyDB myDB=new MyDB("dubao.db",null,12);
-    private int index=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,35 +49,55 @@ public class MainActivity extends AppCompatActivity {
         insertBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SQLiteDatabase db =myDB.getWritableDatabase();
                 String sql="";
-                sql=String.format("INSERT INTO duma( \"dumaName\", \"dumaId\", \"bindDateTime\") VALUES ( '%s', '%s', '%d');","嘟妈"+index,"999"+index ,System.currentTimeMillis());
-                Log.d("mqtt",sql);
-                db.execSQL(sql);
+                sql=String.format("INSERT INTO duma( \"dumaName\", \"dumaId\", \"bindDateTime\") VALUES ( '%s', '%s', '%d');","嘟妈","f1122aeb-f2b0-400d-9919-eddd2eaebaa2" ,System.currentTimeMillis());
+                myDB.execSQL(sql);
 
             }
         });
+        Button updateBtn=findViewById(R.id.updateDB);
+        updateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String sql="";
+                sql=String.format("UPDATE duma set dumaName=\"%s\" WHERE dumaId=\"%s\"","嘟妈2","f1122aeb-f2b0-400d-9919-eddd2eaebaa2" );
+                myDB.execSQL(sql);
+
+            }
+        });
+
         Button queryBtn=findViewById(R.id.queryDB);
         queryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SQLiteDatabase db =myDB.getWritableDatabase();
-                Cursor cursor = db.rawQuery("SELECT * FROM duma", null);
-                if (cursor.moveToFirst()){
+                Cursor cursor = myDB.rawQuery("SELECT * FROM duma");
+                if (cursor!=null&&cursor.moveToFirst()){
                     do{
                         @SuppressLint("Range") String dumaName=cursor.getString(cursor.getColumnIndex("dumaName"));
                         @SuppressLint("Range") String dumaId=cursor.getString(cursor.getColumnIndex("dumaId"));
                         @SuppressLint("Range") int bindDateTime=cursor.getInt(cursor.getColumnIndex("bindDateTime"));
-                        Toast.makeText(MainActivity.this,dumaId+dumaName+bindDateTime,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this,dumaName,Toast.LENGTH_SHORT).show();
 
                     }while (cursor.moveToNext());
-                }
-                cursor.close();
+                    cursor.close();
 
+                }
 
 
             }
+
         });
+        Button delBtn=findViewById(R.id.delDB);
+        delBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String sql="";
+                sql=String.format("DELETE FROM duma WHERE dumaId=\"%s\"","f1122aeb-f2b0-400d-9919-eddd2eaebaa2");
+                myDB.execSQL(sql);
+
+            }
+        });
+
 
     }
 
