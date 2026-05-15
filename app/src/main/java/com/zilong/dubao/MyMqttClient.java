@@ -23,7 +23,13 @@ public class MyMqttClient {
     private MqttClient client;
     private MqttConnectOptions connOpts;
     private String uuid;
-    private class Msg{
+    static public class Msg{
+        Msg(String code,String dumaName,String dumaId,String dubaoId){
+            this.code=code;
+            this.dumaName=dumaName;
+            this.dumaId=dumaId;
+            this.dubaoId=dubaoId;
+        }
         String code;
         String dumaName;
         String dumaId;
@@ -35,14 +41,12 @@ public class MyMqttClient {
         Gson gson = new Gson();
         Msg msg = gson.fromJson(json, Msg.class);
         if (msg.dubaoId.equals(uuid)){
-            Log.d("mqtt",msg.dumaId);
-            Log.d("mqtt",msg.dumaName);
             Intent intent = new Intent(app.getContext(), MessageActivity.class);
             intent.putExtra("dumaName",msg.dumaName);
             intent.putExtra("dumaId",msg.dumaId);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             NotificationMsg notificationMsg=new NotificationMsg();
-            notificationMsg.sendNotification(msg.dumaName,msg.dumaId,intent);
+            notificationMsg.sendNotification(msg.dumaName+"请求绑定",msg.dumaId,intent);
 
         }
 

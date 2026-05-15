@@ -5,6 +5,15 @@
     android:gravity="center_vertical"
     android:orientation="vertical">
     tools:context=".MessageActivity">
+    <TextView
+        android:text="嘟妈请求绑定"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:layout_margin="85dp"
+        android:textColor="#F44336"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

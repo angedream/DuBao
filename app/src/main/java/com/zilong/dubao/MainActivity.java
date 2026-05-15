@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initBtn();
-//        startService();
+        startService();
         ImageView qrCodeImageView = findViewById(R.id.qrCode);
         uuid u=new uuid();
         String dubaoId=u.getuuid();
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String sql="";
-                sql=String.format("DELETE FROM duma WHERE dumaId=\"%s\"","f1122aeb-f2b0-400d-9919-eddd2eaebaa2");
+                sql=String.format("DELETE FROM duma","f1122aeb-f2b0-400d-9919-eddd2eaebaa2");
                 myDB.execSQL(sql);
 
             }

@@ -10,7 +10,8 @@ import android.os.IBinder;
 import androidx.core.app.NotificationCompat;
 
 public class MyService extends Service {
-    MyMqttClient myMqttClient;
+    public static MyMqttClient myMqttClient;
+    public static String dubaoId;
     public MyService() {
     }
 
@@ -20,8 +21,8 @@ public class MyService extends Service {
         super.onCreate();
         createNotificationChannel();
         uuid u=new uuid();
-        String uuid= u.getuuid();
-        myMqttClient=new MyMqttClient(uuid);
+        dubaoId= u.getuuid();
+        myMqttClient=new MyMqttClient(dubaoId);
         myMqttClient.connect();
 
     }

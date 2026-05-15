@@ -5,28 +5,36 @@
     android:gravity="center_vertical"
     android:orientation="vertical">
     <Button
+        android:visibility="invisible"
         android:id="@+id/insertDB"
         android:text="插入多数据"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <Button
+
+        android:visibility="invisible"
+
         android:id="@+id/rollupDB"
         android:text="回滚数据"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <Button
+        android:visibility="invisible"
+
         android:id="@+id/queryDB"
         android:text="查询数据"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <Button
         android:id="@+id/delDB"
+        android:visibility="invisible"
+
         android:text="删除数据"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <ImageView
-        android:visibility="invisible"
+        android:visibility="visible"
         android:id="@+id/qrCode"
         android:layout_width="300dp"
         android:layout_height="300dp"
