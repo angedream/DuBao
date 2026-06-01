@@ -33,6 +33,7 @@ import org.webrtc.VideoCapturer;
 import org.webrtc.VideoSource;
 import org.webrtc.VideoTrack;
 
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +43,7 @@ public class MyWebRtc {
     private PeerConnectionFactory factory;
     PeerConnection peerConnection;
     Context context;
+    DataChannel mdataChannel;
     MyWebRtc(){
         this.context=app.getContext();
         init();
@@ -78,7 +80,10 @@ public class MyWebRtc {
 
             @Override
             public void onIceConnectionChange(PeerConnection.IceConnectionState iceConnectionState) {
-                print("onIceConnectionChange");
+                print("onIceConnectionChange"+iceConnectionState.name());
+                if(iceConnectionState==PeerConnection.IceConnectionState.FAILED){
+
+                }
 
             }
 
@@ -120,6 +125,9 @@ public class MyWebRtc {
 
             @Override
             public void onDataChannel(DataChannel dataChannel) {
+                mdataChannel=dataChannel;
+                setupDataChannelObserver();
+                print("onDataChannel--------------------------");
 
             }
 
@@ -192,6 +200,73 @@ public class MyWebRtc {
         videoTrack.enabled();
         return videoTrack;
     }
+
+
+    private void setupDataChannelObserver() {
+        if (mdataChannel == null) {
+
+            return;
+        }
+        mdataChannel.registerObserver(new DataChannel.Observer() {
+            @Override
+            public void onBufferedAmountChange(long l) {
+                print("webrtc缓冲区变化："+l);
+
+            }
+
+            @Override
+            public void onStateChange() {
+                DataChannel.State state = mdataChannel.state();
+                Log.d("WebRTC", ": " + state);
+                print("WebRTC 数据通道状态:"+state);
+                if (state == DataChannel.State.OPEN) {
+                    Log.d("mqtt", "✅ 数据通道已打开");
+                    // 可以发送初始消息
+                } else if (state == DataChannel.State.CLOSED) {
+                    Log.d("mqtt", "❌ 数据通道已关闭");
+                }
+
+            }
+
+            @Override
+            public void onMessage(DataChannel.Buffer buffer) {
+                if (buffer.binary) {
+                    // 二进制数据
+                    ByteBuffer byteBuffer = buffer.data;
+                    byte[] bytes = new byte[byteBuffer.remaining()];
+                    byteBuffer.get(bytes);
+//                    handleBinaryMessage(bytes);
+                } else {
+                    // 文本消息
+                    ByteBuffer byteBuffer = buffer.data;
+                    byte[] bytes = new byte[byteBuffer.remaining()];
+                    byteBuffer.get(bytes);
+                    String message = new String(bytes);
+//                    handleTextMessage(message);
+                    print(message);
+                    sendMessage("shoudaoshsdasdasd");
+                }
+
+            }
+        });
+
+
+
+    }
+
+    // 发送文本消息
+    public void sendMessage(String message) {
+        if (mdataChannel != null && mdataChannel.state() == DataChannel.State.OPEN) {
+            byte[] bytes = message.getBytes();
+            ByteBuffer buffer = ByteBuffer.wrap(bytes);
+            DataChannel.Buffer dataBuffer = new DataChannel.Buffer(buffer, false);
+            boolean success = mdataChannel.send(dataBuffer);
+            Log.d("WebRTC", "发送消息: " + message + ", 结果: " + success);
+        } else {
+            Log.e("WebRTC", "数据通道未打开");
+        }
+    }
+
 
     public void getScreenVideo() {
         surfaceTextureHelperscreen = SurfaceTextureHelper.create("CaptureThread1", eglBase.getEglBaseContext());
