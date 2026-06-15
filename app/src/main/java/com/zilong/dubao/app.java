@@ -11,7 +11,7 @@ public class app extends Application {
     public void onCreate() {
         super.onCreate();
         context=getApplicationContext();
-        Toast.makeText(context,"全局获取Context",Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context,"全局获取Context",Toast.LENGTH_SHORT).show();
     }
     public static Context getContext(){
         return context;

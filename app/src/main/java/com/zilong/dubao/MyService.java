@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.IBinder;
 
 import androidx.core.app.NotificationCompat;
@@ -12,6 +13,7 @@ import androidx.core.app.NotificationCompat;
 public class MyService extends Service {
     public static MyMqttClient myMqttClient;
     public static String dubaoId;
+    public static GpsGaode gpsGaode;
     public MyService() {
     }
 
@@ -24,6 +26,7 @@ public class MyService extends Service {
         dubaoId= u.getuuid();
         myMqttClient=new MyMqttClient(dubaoId);
         myMqttClient.connect();
+        gpsGaode=new GpsGaode();
 
     }
 

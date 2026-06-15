@@ -70,7 +70,7 @@ public class MyWebRtc {
     }
     public void createPeerConnection(String remoteSdp) {
         List<PeerConnection.IceServer> iceServers=new ArrayList <>();
-        iceServers.add(PeerConnection.IceServer.builder("stun:fly.angerdream21.top:3478").createIceServer());
+        iceServers.add(PeerConnection.IceServer.builder(MyConfig.coturnurl).createIceServer());
         PeerConnection.RTCConfiguration config =new PeerConnection.RTCConfiguration(iceServers);
         peerConnection=factory.createPeerConnection(config, new PeerConnection.Observer() {
             @Override
@@ -250,8 +250,6 @@ public class MyWebRtc {
             }
         });
 
-
-
     }
 
     // 发送文本消息
@@ -266,7 +264,15 @@ public class MyWebRtc {
             Log.e("WebRTC", "数据通道未打开");
         }
     }
-
+    // 发送二进制数据
+    public void sendBinaryData(byte[] data) {
+        if (mdataChannel != null && mdataChannel.state() == DataChannel.State.OPEN) {
+            ByteBuffer buffer = ByteBuffer.wrap(data);
+            DataChannel.Buffer dataBuffer = new DataChannel.Buffer(buffer, true);
+            boolean success = mdataChannel.send(dataBuffer);
+            Log.d("WebRTC", "发送二进制数据长度: " + data.length + ", 结果: " + success);
+        }
+    }
 
     public void getScreenVideo() {
         surfaceTextureHelperscreen = SurfaceTextureHelper.create("CaptureThread1", eglBase.getEglBaseContext());

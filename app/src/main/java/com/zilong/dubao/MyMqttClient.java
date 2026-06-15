@@ -1,6 +1,5 @@
 package com.zilong.dubao;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.HandlerThread;

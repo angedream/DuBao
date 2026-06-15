@@ -66,7 +66,7 @@ public class MessageActivity extends AppCompatActivity {
                 .show();
     }
     private void bindDuMa(){
-        MyDB myDB=new MyDB("dubao.db",null,12);
+        MyDB myDB=new MyDB();
 
         SQLiteDatabase db =myDB.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM duma where dumaId=?",new String[]{dumaId});

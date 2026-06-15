@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <Button
-        android:visibility="invisible"
+        android:visibility="visible"
 
         android:id="@+id/queryDB"
         android:text="查询数据"
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"/>
     <Button
         android:id="@+id/delDB"
-        android:visibility="invisible"
+        android:visibility="visible"
 
         android:text="删除数据"
         android:layout_width="match_parent"

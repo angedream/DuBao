@@ -21,13 +21,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
+import com.amap.apis.utils.core.api.AMapUtilCoreApi;
+
 public class MainActivity extends AppCompatActivity {
-    private MyDB myDB=new MyDB("dubao.db",null,12);
+    private MyDB myDB=new MyDB();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initBtn();
+//        initGaoDeGPS();
         startService();
         ImageView qrCodeImageView = findViewById(R.id.qrCode);
         uuid u=new uuid();
@@ -105,36 +112,29 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SQLiteDatabase db =myDB.getWritableDatabase();
-                Cursor cursor = db.rawQuery("SELECT * FROM duma",null);
+                Cursor cursor = db.rawQuery("SELECT * FROM gps",null);
                 if (cursor!=null&&cursor.moveToFirst()){
                     do{
-                        @SuppressLint("Range") String dumaName=cursor.getString(cursor.getColumnIndex("dumaName"));
-                        @SuppressLint("Range") String dumaId=cursor.getString(cursor.getColumnIndex("dumaId"));
-                        @SuppressLint("Range") int bindDateTime=cursor.getInt(cursor.getColumnIndex("bindDateTime"));
+                        @SuppressLint("Range") String dumaName=cursor.getString(cursor.getColumnIndex("city"));
+                        @SuppressLint("Range") String dumaId=cursor.getString(cursor.getColumnIndex("province"));
+                        @SuppressLint("Range") int bindDateTime=cursor.getInt(cursor.getColumnIndex("addr"));
                         Toast.makeText(MainActivity.this,dumaName,Toast.LENGTH_SHORT).show();
 
                     }while (cursor.moveToNext());
                     cursor.close();
                     db.close();
-
                 }
-
-
             }
-
         });
         Button delBtn=findViewById(R.id.delDB);
         delBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String sql="";
-                sql=String.format("DELETE FROM duma","f1122aeb-f2b0-400d-9919-eddd2eaebaa2");
+                sql=String.format("DELETE FROM gps","f1122aeb-f2b0-400d-9919-eddd2eaebaa2");
                 myDB.execSQL(sql);
-
             }
         });
-
-
     }
 
     private void startService(){
@@ -169,5 +169,4 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
 }
