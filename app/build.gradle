@@ -33,6 +33,12 @@ android {
 
 dependencies {
 
+
+    implementation 'io.github.justson:agentweb-core:v5.1.1-androidx'
+    implementation 'io.github.justson:agentweb-filechooser:v5.1.1-androidx' // (可选)
+    implementation 'com.github.Justson:Downloader:v5.0.4-androidx' // (可选)
+
+
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.2'
     implementation 'com.google.zxing:core:3.4.1'
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
