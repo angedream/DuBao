@@ -20,6 +20,9 @@ onUnmounted(() => {
   console.log(121);
 
 })
+function test() {
+  console.log(123);
+}
 
 </script>
 <style scoped>
