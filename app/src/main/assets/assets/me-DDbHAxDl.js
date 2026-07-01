@@ -1,0 +1,1 @@
+import"./qr-scanner.min-DYuwD0oj.js";import{d as e,G as o,K as t,_ as a}from"./index-XSovv2T1.js";const s={class:"container"},c=e({__name:"me",setup(_){return(n,r)=>(t(),o("div",s," wode "))}}),d=a(c,[["__scopeId","data-v-25a6ca6f"]]);export{d as default};

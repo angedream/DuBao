@@ -1,0 +1,1 @@
+import{d as e,K as t,L as s,_ as a}from"./index-DK9qjBHb.js";import{s as n}from"./function-call-Cvbs8Tjy.js";import"./index-BSV6MJ71.js";const c=e({__name:"me",setup(r){function o(){console.log(222),n("12121")}return(_,m)=>(t(),s("div",{onClick:o,class:"container"}," wode "))}}),d=a(c,[["__scopeId","data-v-658040a1"]]);export{d as default};

@@ -1,0 +1,1 @@
+import{$ as n,a0 as l,a1 as c,r as o,a2 as d,e as i}from"./index-DK9qjBHb.js";const f=n("dubao",()=>{let r=o("鲫鱼"),a=o(0),e=l(JSON.parse(c())||[]);function s(t){e.push(t),a=e.length,console.log(t),d(JSON.stringify(e))}let u=i(()=>a.value*2);return{name:r,num:a,dubaoId:e,add:s,calcPrice:u}});export{f as u};
