@@ -45,6 +45,11 @@ public class MyWebRtc {
     Context context;
     DataChannel mdataChannel;
     public String dumaId="";
+    AudioTrack audioTrack=null;
+    VideoTrack videoTrack=null;
+    VideoCapturer videoCapturer=null;
+    VideoSource videoSource=null;
+    AudioSource audioSource=null;
     MyWebRtc(){
         this.context=app.getContext();
         init();
@@ -174,11 +179,11 @@ public class MyWebRtc {
     }
 
     private AudioTrack getAudioTrack(){
-        AudioSource audioSource =
+        audioSource =
                 factory.createAudioSource(
                         new MediaConstraints());
 
-        AudioTrack audioTrack =
+        audioTrack =
                 factory.createAudioTrack(
                         "audio_track",
                         audioSource);
@@ -193,11 +198,11 @@ public class MyWebRtc {
     static Intent i;
     private VideoTrack getVideoTrack(){
         surfaceTextureHelper = SurfaceTextureHelper.create("CaptureThread", eglBase.getEglBaseContext());
-        VideoCapturer videoCapturer = createCameraCapturer(true);
-        VideoSource videoSource = factory.createVideoSource(videoCapturer.isScreencast());
+        videoCapturer = createCameraCapturer(true);
+        videoSource = factory.createVideoSource(videoCapturer.isScreencast());
         videoCapturer.initialize(surfaceTextureHelper, context.getApplicationContext(), videoSource.getCapturerObserver());
         videoCapturer.startCapture(480, 640, 30);
-        VideoTrack videoTrack=   factory.createVideoTrack("100", videoSource);
+        videoTrack=   factory.createVideoTrack("100", videoSource);
         videoTrack.enabled();
         return videoTrack;
     }
@@ -303,6 +308,54 @@ public class MyWebRtc {
         }
 
     }
+
+    public void bye(){
+        echo.print("bye");
+        if (audioTrack!=null){
+            audioTrack.setEnabled(false);
+
+        }
+        if (videoTrack!=null){
+            videoTrack.setEnabled(false);
+        }
+        if (videoCapturer != null) {
+            try {
+                videoCapturer.stopCapture();
+            } catch (InterruptedException e) {
+                // 忽略或记录日志
+            }
+        }
+        if (peerConnection != null) {
+            peerConnection.close();
+            peerConnection=null;
+            // 根据你的 Observer 实现，把所有回调都置空
+        }
+
+        if (videoSource != null) {
+            videoSource.dispose();
+            videoSource = null;
+        }
+        if (audioSource != null) {
+            audioSource.dispose();
+            audioSource = null;
+        }
+        if (audioTrack!=null){
+            audioTrack.dispose();
+            audioTrack=null;
+
+        }
+        if (videoTrack!=null){
+            videoTrack.dispose();
+            videoTrack=null;
+        }
+
+
+        if (videoCapturer != null) {
+            videoCapturer.dispose();
+        }
+
+    }
+
     private VideoCapturer createCameraCapturer(boolean isFront) {
         Camera2Enumerator enumerator = new Camera2Enumerator(context.getApplicationContext());
         final String[] deviceNames = enumerator.getDeviceNames();

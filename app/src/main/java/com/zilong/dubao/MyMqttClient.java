@@ -50,13 +50,22 @@ public class MyMqttClient {
             print(json);
             Gson gson = new Gson();
             Msg msg = gson.fromJson(json, Msg.class);
+            echo.print("bind");
             if (msg.dubaoId.equals(uuid)&&msg.code.equals("bind")){
                 Intent intent = new Intent(app.getContext(), MessageActivity.class);
                 intent.putExtra("dumaName",msg.dumaName);
                 intent.putExtra("dumaId",msg.dumaId);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                NotificationMsg notificationMsg=new NotificationMsg();
-                notificationMsg.sendNotification(msg.dumaName+"请求绑定",msg.dumaId,intent);
+                if (app.isAppInBackground()){
+                    NotificationMsg notificationMsg=new NotificationMsg();
+                    notificationMsg.sendNotification(msg.dumaName+"请求绑定",msg.dumaId,intent);
+                    echo.print("houtao");
+
+                }else {
+                    app.getContext().startActivity(intent);
+                    echo.print("qiantai");
+
+                }
                 return;
 
             }
@@ -75,6 +84,37 @@ public class MyMqttClient {
                 case "changescreen":
                     myWebRtc.getScreenVideo();
                     break;
+                case "gps":
+                    echo.print("haha");
+                    MyService.gpsGaode.onceLocation(msg);
+                    break;
+
+                case "chat":
+                    echo.print(msg.data);
+                    NotificationMsg notificationMsg=new NotificationMsg();
+                    notificationMsg.sendNotification(msg.dumaName,msg.data);
+                    msg.code="chat";
+                    String json3=gson.toJson(msg);
+                    publish("/duma/"+ msg.dumaId,json3);
+                case "gpssport":
+                    echo.print("haha111");
+                    MyDB myDB2=new MyDB();
+                    String s2=myDB2.getgps(msg.data);
+                    msg.code="gpssport";
+                    msg.data=s2;
+                    String json4=gson.toJson(msg);
+                    publish("/duma/"+ msg.dumaId,json4);
+                    break;
+                case "setfence":
+                    echo.print("haha1112");
+                    MyService.gpsGaode.setfence(msg);
+                    break;
+                case "bye":
+                    echo.print("sdjasjd");
+                    myWebRtc.bye();
+                    break;
+
+
             default:break;
             }
 
@@ -85,6 +125,7 @@ public class MyMqttClient {
 
 
     }
+
 
 
 

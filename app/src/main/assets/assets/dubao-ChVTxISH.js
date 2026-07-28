@@ -1,0 +1,1 @@
+import{a0 as r,E as s,a1 as n,a2 as d}from"./index-BxGO5iRk.js";const b=r("dubao",()=>{let a=s(JSON.parse(n())||[]);function e(o){a.push(o),console.log(o),d(JSON.stringify(a))}function t(o){return a.find(u=>u.dubaoId===o)}return{dubaoId:a,add:e,getDuBao:t}});export{b as u};
